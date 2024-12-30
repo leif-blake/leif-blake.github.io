@@ -23,7 +23,7 @@ email: contact@leifblake.ca
 description: >- # this means to ignore newlines until "baseurl:"
   Hi, I'm Leif. This is my blog where I explore topics that interest me, especially
   little stories hidden in the data around us. Feel free to reach out by email!
-baseurl: "/blog" # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  leif-blake
 youtube_username: "@IsThisRealLeif"
