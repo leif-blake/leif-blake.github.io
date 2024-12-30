@@ -4,15 +4,12 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+Hi, I'm Leif. I graduated with a degree in Mechatronics Engineering from the University of Waterloo,
+and am largely putting this to use, mostly in electronics, firmware development, and sensor analysis.
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+I'm interested in physics, statistics, and understanding our world better through data. If you've
+got any questions or comments about any of my blog posts, feel free to reach out via email,
+there should be a link at the bottom of this page. Some of the older posts on here are copied over
+from my Medium account, but I'll be posting on here from now on.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
-
-
-[jekyll-organization]: https://github.com/jekyll
+Thanks for stopping by, and have a nice day!
