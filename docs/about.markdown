@@ -13,3 +13,5 @@ there should be a link at the bottom of this page. Some of the older posts on he
 from my Medium account, but I'll be posting on here from now on.
 
 Thanks for stopping by, and have a nice day!
+
+![Picture of a birb.]({{site.baseurl}}/assets/images/favicon_large.jpg)
