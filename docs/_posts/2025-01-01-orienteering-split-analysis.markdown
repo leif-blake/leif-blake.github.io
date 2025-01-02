@@ -64,4 +64,4 @@ For each race, I normalized the performance trend to a split order of 0, meaning
 
 3. Orienteers know that elephant paths can make a bigger difference in some terrain over others, particularly when there's heavy understory. This could help explain the large standard deviation seen in the trend slope lines, and would also be an interesting avenue for further exploration, although collecting a reliable dataset may prove challenging.
 
-4. All this analysis excludes data from elite runners. If elite runners benefit to a different extent from elephant trails tjan the general orienteering population, the conclusions drawn here may not be appicable to elite fields.
+4. All this analysis excludes data from elite runners. If elite runners benefit to a different extent from elephant trails than the general orienteering population, the conclusions drawn here may not be applicable to elite fields.
