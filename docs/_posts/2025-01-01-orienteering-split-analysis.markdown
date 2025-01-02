@@ -30,7 +30,7 @@ I used data from 13 Oringens between 2010 and 2024. When broken down into indivi
 
 ## Methodology
 
-The basic question that we want to answer is this: When an orienteer starts on a leg, is there a correlation between the number of orienteers who have already run that leg, and that orienteer's split for that leg? We'll introduce a new term here to simplify this text going forward: if I'm the 67th person to run a particular leg, my "split order" is 67.
+The basic question we want to answer is this: When an orienteer starts on a leg, is there a correlation between the number of orienteers who have already run that leg, and that orienteer's split for that leg? We'll introduce a new term here to simplify this text going forward: if I'm the 67th person to run a particular leg, my "split order" is 67.
 
 Since we can only guarantee a pseudo-random distribution of skill level within a class, I normalized an athlete's split for each leg to the mean of their class's time on that leg. Keep in mind this means a lower number is better. It is still somewhat problematic to compare these normalized performances between classes, since classes arriving at a control at different points in their race will have a different mean "split order". If our hypothesis is correct, that split order is correlated to performance, then we will be normalizing to different "levels" of performance in different classes. While we might be normalizing the performance of Class A about a split order of 55, we might be normalizing the performance of Class B about a split order of 107. This is mitigated to some extent by Oringen's large and numerous categories, and long start windows.
 
