@@ -10,7 +10,7 @@ Orienteering is a sport which combines running with precision navigation using m
 
 ![A picture of an orienteer running thorugh the forest, with an elephant path marked in red]({{site.baseurl}}/assets/images/oringen_2015_elephant_trails.png)
 
-It is well known among orienteers that these elephant paths confer an advantage to later runners, as they aid in both navigation and running. This article is an attempt to quantify this advantage, using data from the largest multi-day orienteering event in the world, Oringen.
+It has long been suspected among orienteers that these elephant paths confer an advantage to later runners, as they aid in both navigation and running. This article presents an attempt to quantify this advantage, using data from the largest multi-day orienteering event in the world, Oringen.
 
 ## Data Source
 
@@ -32,7 +32,7 @@ I used data from 13 Oringens between 2010 and 2024. When broken down into indivi
 
 The basic question that we want to answer is this: When an orienteer starts on a leg, is there a correlation between the number of orienteers who have already run that leg, and that orienteer's split for that leg? We'll introduce a new term here to simplify this text going forward: if I'm the 67th person to run a particular leg, my "split order" is 67.
 
-Since we can only guarantee a pseudo-random distribution of skill level within a class, I normalized an athlete's split for each leg to the mean of their class's time on that leg. Keep in mind this means a lower number is better. It is still somewhat problematic to compare these normalized performances between classes. If our hypothesis is correct, then classes arriving at a control at different points in their race will have a different mean "split order". Hence, while we might be normalizing the performance of Class A about a split order of 55, we might be normalizing the performance of Class B about a split order of 107. This is mitigated to some extent by the large categories and long start windows at Oringen.
+Since we can only guarantee a pseudo-random distribution of skill level within a class, I normalized an athlete's split for each leg to the mean of their class's time on that leg. Keep in mind this means a lower number is better. It is still somewhat problematic to compare these normalized performances between classes, since classes arriving at a control at different points in their race will have a different mean "split order". If our hypothesis is correct, that split order is correlated to performance, then we will be normalizing to different "levels" of performance in different classes. While we might be normalizing the performance of Class A about a split order of 55, we might be normalizing the performance of Class B about a split order of 107. This is mitigated to some extent by Oringen's large and numerous categories, and long start windows.
 
 As for calculating the split order itself, further problems arise. If we simply take the order as described, using the timestamp of when an orienteer begins that leg, we are inherently introducing a bias towards natural performance that we sought to eliminate by using only pseudo-random start times. Given the same start time, a worse orienteer will arrive at a control later, and hence have a higher split order. This might introduce a false trend towards worse performance at higher split orders. 
 
@@ -52,15 +52,19 @@ As the number of splits thins out, the noise becomes very large. If there is an 
 
 ![A graph showing split performance against split order at expected time with a linear trend line]({{site.baseurl}}/assets/images/oringen_perf_vs_split_order_trend.png)
 
+The trends for all 52 races are shown below:
+
+![Multiple graphs showing split performance against split order at expected time with linear trend lines]({{site.baseurl}}/assets/images/oringen_all_trends.png)
+
 ## Results
 
-For each race, I normalized the performance trend to a split order of 0, meaning that performance gains are represented as an advantage over an orienteer running through untouched terrain. Then taking the average of all trend lines (52 races in all), I obtained an average relationship of -0.000361 with standard deviation 0.000171. This indicates that all else equal, the 100th runner on a leg would, on average, be 3.6% faster than they would have been had they started first. The 200th runner has a 7.2% advantage.
+For each race, I normalized the performance trend to a split order of 0, meaning that performance gains are represented as an advantage over an orienteer running through untouched terrain. Then taking the average of all trend lines (52 races in all), I obtained an average relationship of -0.000364 with standard deviation 0.000137. This indicates that all else equal, the 100th runner on a leg would, on average, be 3.6% faster than they would have been had they started first. The 200th runner has a 7.3% advantage.
 
 ## Confounding factors/further research
 
-1. A major downside of using Oringen as a data source is that arenas are often re-used between races. Hence, some legs that are reset to a split order of 0 for day two may in fact be identical to legs from the previous day's race. With no master maps from the competions included in this analysis, I made no attempt to correct for this. Re-doing the analysis with only the 13 first-day races, I find a mean relationship of -0.000405. This slightly higher performance boost for later runners indicates that stadium re-use may be having some effect.
+1. A major downside of using Oringen as a data source is that arenas are often re-used between races. Hence, some legs that are reset to a split order of 0 for day two may in fact be identical to legs from the previous day's race. With no master maps from the competions included in this analysis, I made no attempt to correct for this. Re-doing the analysis with only the 13 first-day races, I find a mean relationship of -0.000393 (std dev 0.000128). This slightly higher performance boost for later runners indicates that stadium re-use may be having some effect.
 
-2. Heat affects runner's performance. Since the competitor start window is several hours long, orienteers are exposed to different weather conditions on course. It would be interesting to see if increasing temperatures can be found to correlate with poorer performance for later runners, but given the noise in the data this effect may be too small to find.
+2. Heat affects runners' performance. Since the competitor start window is several hours long, orienteers are exposed to different weather conditions on course. It would be interesting to see if increasing temperatures can be found to correlate with poorer performance for later runners, but given the noise in the data this effect may be too small to find.
 
 3. Orienteers know that elephant paths can make a bigger difference in some terrain over others, particularly when there's heavy understory. This could help explain the large standard deviation seen in the trend slope lines, and would also be an interesting avenue for further exploration, although collecting a reliable dataset may prove challenging.
 
