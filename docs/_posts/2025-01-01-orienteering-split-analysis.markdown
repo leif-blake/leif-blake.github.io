@@ -52,11 +52,11 @@ As the number of splits thins out, the noise becomes very large. If there is an 
 
 ![A graph showing split performance against split order at expected time with a linear trend line]({{site.baseurl}}/assets/images/oringen_perf_vs_split_order_trend.png)
 
-# Results
+## Results
 
 For each race, I normalized the performance trend to a split order of 0, meaning that performance gains are represented as an advantage over an orienteer running through untouched terrain. Then taking the average of all trend lines (52 races in all), I obtained an average relationship of -0.000361 with standard deviation 0.000171. This indicates that all else equal, the 100th runner on a leg would, on average, be 3.6% faster than they would have been had they started first. The 200th runner has a 7.2% advantage.
 
-# Confounding factors/further research
+## Confounding factors/further research
 
 1. A major downside of using Oringen as a data source is that arenas are often re-used between races. Hence, some legs that are reset to a split order of 0 for day two may in fact be identical to legs from the previous day's race. With no master maps from the competions included in this analysis, I made no attempt to correct for this. Re-doing the analysis with only the 13 first-day races, I find a mean relationship of -0.000405. This slightly higher performance boost for later runners indicates that stadium re-use may be having some effect.
 
