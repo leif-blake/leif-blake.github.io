@@ -62,7 +62,11 @@ For each race, I normalized the performance trend to a split order of 0, meaning
 
 Cutting off the split order at 200 was of course an arbitrary decision, so it's worth examing how the results change if we modify this cutoff. The following plot shows boxplots of the adjusted (i.e., normalized to a split order of 0) trend line slopes for split order cutoffs from 50 to 1000. As expected, the trend is more dramatic for lower split orders, and starts to level off as we include higher split orders. This indicates that the incremental advantage confered by prior runners on a leg is greatest for the first few competitors, then diminishes. Slopes for split order cutoffs lower than 200 can be gleaned from this graph, but the uncertainty becomes larger.
 
-![Boxplot showing the change in trend line slopes as higher split orders are included in the analysis]({{site.baseurl}}/assets/images/oringen_trends_boxplot.png)
+![Boxplot showing the change in trend line slopes as higher split orders at expected timestamp are included in the analysis]({{site.baseurl}}/assets/images/oringen_trends_boxplot_expected_timestamp.png)
+
+Given the possible over-estimation of the slope using the split order at expected timestamp, as mentioned above, it may also be worth looking at the results using split order at start time. In this case, the slope for a split order cutoff of 200 is slightly diminished, at -0.000346, with standard deviation 0.000142. For completeness, the same boxplot is generated below:
+
+![Boxplot showing the change in trend line slopes as higher split orders at start time are included in the analysis]({{site.baseurl}}/assets/images/oringen_trends_boxplot_start_time.png)
 
 ## Confounding factors/further research
 
