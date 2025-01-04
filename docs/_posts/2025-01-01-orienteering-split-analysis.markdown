@@ -40,7 +40,7 @@ Conversely, if we take the split order as it exists for each leg when the athlet
 
 ![A graph showing the increase in split order over the course of a race]({{site.baseurl}}/assets/images/oringen_split_order_vs_time_example.png)
 
-A compromise is to calculate the time that an athlete "should" have reached a given leg based on the mean time to reach that leg in their class. We then calculate the split order they would have had under this scenario, and use this as the x-axis value for their split performance. A histogram of the error in this "pseudo split-order" shows a fairly normal distribution:
+A compromise is to calculate the time that an athlete "should" have reached a given leg based on the mean time to reach that leg in their class. We then calculate the split order they would have had under this scenario, and use this as the x-axis value for their split performance. A histogram of the error in this "pseudo split-order" shows a fairly normal distribution, but it is worth noting that this step increases the magnitude of the relationship between split order and split performance. The expected split order will be lower than the actual split order for poorer performing athletes, and vice-versa for higher performning athletes. This has the effect of increasing the negativity of any trend. So while using the "true" split order biases towards natural ability, this may bias too far in the other direction, leading to an over-estimation of the effect of elephant trails.
 
 ![A histogram showing the error in the split order as calcualted from expected arrival time at a control]({{site.baseurl}}/assets/images/oringen_hist_split_order_error.png)
 
