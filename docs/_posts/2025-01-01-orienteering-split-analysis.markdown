@@ -79,3 +79,6 @@ Given the possible over-estimation of the slope using the split order at expecte
 4. All this analysis excludes data from elite runners. If elite runners benefit to a different extent from elephant trails than the general orienteering population, the conclusions drawn here may not be applicable to elite fields.
 
 5. Given the changing slopes of the trend lines in the results section, it would be interesting to fit a non-linear trend to the data, such as an exponential decay with a type of offset. This hasn't been attempted here due to the difficulty of combining the trends of multiple data series.
+
+# Updates
+*2025-01-03*: Added box plots to show the changes in trens line slopes depending on split order cutoff, and added a bit more discussion of possible flaws in the methodology
