@@ -66,10 +66,12 @@ Cutting off the split order at 200 was of course an arbitrary decision, so it's 
 
 ## Confounding factors/further research
 
-1. A major downside of using Oringen as a data source is that arenas are often re-used between races. Hence, some legs that are reset to a split order of 0 for day two may in fact be identical to legs from the previous day's race. With no master maps from the competions included in this analysis, I made no attempt to correct for this. Re-doing the analysis with only the 13 first-day races, I find a mean relationship of -0.000393 (std dev 0.000128). This slightly higher performance boost for later runners indicates that stadium re-use may be having some effect.
+1. A major downside of using Oringen as a data source is that arenas are often re-used between races. Hence, some legs that are reset to a split order of 0 for day two may in fact be identical to legs from the previous day's race. With no master maps from the competions included in this analysis, I made no attempt to correct for this. Re-doing the analysis with only the 13 first-day races, with a split order cutoff of 200, I find a mean relationship of -0.000393 (std dev 0.000128). This slightly higher performance boost for later runners indicates that stadium re-use may be having some effect.
 
 2. Heat affects runners' performance. Since the competitor start window is several hours long, orienteers are exposed to different weather conditions on course. It would be interesting to see if increasing temperatures can be found to correlate with poorer performance for later runners, but given the noise in the data this effect may be too small to find.
 
 3. Orienteers know that elephant paths can make a bigger difference in some terrain over others, particularly when there's heavy understory. This could help explain the large standard deviation seen in the trend slope lines, and would also be an interesting avenue for further exploration, although collecting a reliable dataset may prove challenging.
 
 4. All this analysis excludes data from elite runners. If elite runners benefit to a different extent from elephant trails than the general orienteering population, the conclusions drawn here may not be applicable to elite fields.
+
+5. Given the changing slopes of the trend lines in the results section, it would be interesting to fit a non-linear trend to the data, such as an exponential decay with a type of offset. This hasn't been attempted here due to the difficulty of combining the trends of multiple data series.
