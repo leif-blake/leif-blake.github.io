@@ -8,7 +8,7 @@ date:   2025-03-16 23:00:00 -0400
 
 I use [KeePassXC](https://keepassxc.org/) for many of my more sensitive passwords. It's an open-source project for both desktop and mobile which can open the KDBX database file format. For convenience, I store the KDBX file in cloud storage. Despite using a [diceware](https://xkcd.com/936/) password, I'm somewhat concerned about the strength of my password should someone get their hands on the database. After all, computer power is only increasing, and once someone has the database there's no limit on how quickly they can throw guesses at it. It's just a file after all.
 
-Like any somewhat security-conscious individual, I immediately looked to implement 2FA on my database. There is a plugin for KeePass2, which I was orignially using at work, but its development is seemingly abandoned and for reasons I won't go into here, it doesn't provide substantial improvements in security, puts your Yubikey secret at risk, and [does things that could be categorized as security theatre](https://support.keepassium.com/kb/yubikey-keechallenge/).
+Like any somewhat security-conscious individual, I immediately looked to implement 2FA on my database. There is a plugin for KeePass2, which I was orignially using, but its development is seemingly abandoned and for reasons I won't go into here, it doesn't provide substantial improvements in security, puts your Yubikey secret at risk, and [does things that could be categorized as security theatre](https://support.keepassium.com/kb/yubikey-keechallenge/).
 
 Luckily, KeePassXC provides a method to use the HMAC-SHA1 Challenge-Response feature of a Yubikey. Once set up, in order to unlock your database, you must first plug in your Yubikey and tap the capacitive button when prompted, in addition to entering your password. It even works on mobile through the NFC feature of newer Yubikeys!
 
@@ -38,7 +38,7 @@ KDBX databases are not authenticators. They're simply files containing encrypted
 
 Also, as mentioned above, the master seed does not change between succesive decryptions of the file. This means that the response from the YubiKey doesn't change either. Indeed, because the database is not an authenticator, this response *must* be consistent between decryptions. Hence, the YubiKey cannot be considered a second factor in the strictest sense. Unlike with TOTP or other 2FA solutions, **you do not need knowledge of the secret embedded in the YubiKey** in order to unlock the database, only knowledge of the response that it provides. This means that the response from the YubiKey is functionally just a second password stored on the YubiKey, albeit one you don't need to remember, and which changes every time the database is modified.
 
-## Why I'm still using It
+## Why I'm still using it
 
 A 5-word, 5-dice diceware password provides about 64 bits of security, which makes it just slightly harder to guess than 10 random characters, including upper and lower case, numbers, and the symbols in the numbers row. This is decent, but if someone were to get their hands on my KDBX datastore, it wouldn't last all that long to brute force attacks.
 
