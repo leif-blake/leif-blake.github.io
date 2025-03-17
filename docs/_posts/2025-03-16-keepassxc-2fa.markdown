@@ -30,7 +30,7 @@ Now, when it comes time to save the database, KeePassXC generates a new random m
 ![A diagram showing the encryption flow with Yubikey in KeePassXC]({{site.baseurl}}/assets/images/KeePassXC-Encryption.png)
 
 
-## Why isn't this 2FA
+## Why this isn't 2FA
 
 As the developers of KeePassXC point out, this flow doesn't even describe an *Authentication* process, let alone one with multiple factors. In a normal 2FA scheme, the authenticator requests a piece of knowledge from the user, such as a Time-Based One Time Password (TOTP), that the user generates from a secret stored on a device. The authenticator must also have this secret (or a public key in asymmetric schemes), and they can use it to prove the user has knowledge of the secret. The device one which this secret is stored becomes a second factor.
 
@@ -42,6 +42,6 @@ As mentioned above, the master seed does not change between succesive decryption
 
 A 5 word, 5-dice diceware password provides about 64 bits of security, which makes it just slightly harder to guess than 10 random characters, including upper and lower case, numbers, and the symbols in the numbers row. This is decent, but if someone were to get their hands on my KDBX datastore, it wouldn't last all that long to brute force attacks.
 
-Adding a YubiKey as pseudo-2FA provides a second password with 160 bits of security (from the 20 byte secret on the YubiKey). Together, these passwords amount to 224 bits of security, approaching the 256-bit limit imposed by the output of the SHA-256 hash used to produce the final key in KeePassXC, which is then used to decrypt the database. This make my database significantly more secure, and allows me to keep my password simple to remember. 
+Adding a YubiKey as pseudo-2FA provides a second password with 160 bits of security (from the 20 byte secret on the YubiKey). Together, these passwords amount to 224 bits of security, approaching the 256-bit limit imposed by the output of the SHA-256 hash used to produce the final key in KeePassXC, which is then used to decrypt the database. This makes my database significantly more secure, and allows me to keep my password simple to remember. 
 
 In practice, to unlock my database, you need to know my password, and have possession of my YubiKey. If someone is able to extract the response from the YubiKey, such as through malware installed on my computer, it's likely I have bigger problems on my hands.
