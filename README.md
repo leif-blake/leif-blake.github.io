@@ -1,1 +1,1 @@
-My personal blog. Check it out at leifblake.ca
+My personal blog. Check it out at [leifblake.ca](https://www.leifblake.ca)
