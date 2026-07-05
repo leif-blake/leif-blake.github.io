@@ -9,7 +9,7 @@ const tools = [
   },
   {
     id: "placeholder",
-    label: "Coming Soon Tool",
+    label: "Coming Soon",
     init: initPlaceholderTool,
   },
 ];
