@@ -1,27 +1,37 @@
 export const DUTCH_TAX_DATA = {
   holidayAllowanceRate: 0.08,
+  expatDeductionRate: 0.3,
   years: {
     2024: {
       brackets: [
         {
           lower: 0,
-          upper: 75518,
-          payrollRate: 0.0975,
-          socialRate: 0.2722,
+          upper: 38883,
+          payrollRate: 0.0932,
+          socialRate: 0.2765,
           label: "Bracket 1",
         },
         {
-          lower: 75518,
+          lower: 38883,
+          upper: 78426,
+          payrollRate: 0.3697,
+          socialRate: 0,
+          label: "Bracket 2",
+        },
+        {
+          lower: 78426,
           upper: Infinity,
           payrollRate: 0.495,
           socialRate: 0,
-          label: "Bracket 2",
+          label: "Bracket 3",
         },
       ],
       rulingThresholds: {
         young_masters: 35048,
         age_30_plus: 46107,
+        researcher: 0
       },
+      rulingCap: 233000,
       credits: {
         general: {
           max: 3362,
@@ -31,23 +41,19 @@ export const DUTCH_TAX_DATA = {
         labour: {
           segments: [
             {
-              upTo: 11491,
-              base: 0,
+              upTo: 11490,
               rate: 0.08425,
             },
             {
               upTo: 24820,
-              base: 968,
               rate: 0.31433,
             },
             {
-              upTo: 39958,
-              base: 5158,
+              upTo: 39957,
               rate: 0.02471,
             },
             {
-              upTo: 124935,
-              base: 5532,
+              upTo: Infinity,
               rate: -0.0651,
             },
           ],
@@ -58,23 +64,32 @@ export const DUTCH_TAX_DATA = {
       brackets: [
         {
           lower: 0,
-          upper: 76168,
-          payrollRate: 0.0852,
-          socialRate: 0.273,
+          upper: 38883,
+          payrollRate: 0.0932,
+          socialRate: 0.265,
           label: "Bracket 1",
         },
         {
-          lower: 76168,
+          lower: 38883,
+          upper: 78426,
+          payrollRate: 0.3748,
+          socialRate: 0,
+          label: "Bracket 2",
+        },
+        {
+          lower: 78426,
           upper: Infinity,
           payrollRate: 0.495,
           socialRate: 0,
-          label: "Bracket 2",
+          label: "Bracket 3",
         },
       ],
       rulingThresholds: {
         young_masters: 35468,
         age_30_plus: 46660,
+        researcher: 0
       },
+      rulingCap: 246000,
       credits: {
         general: {
           max: 3068,
@@ -85,22 +100,18 @@ export const DUTCH_TAX_DATA = {
           segments: [
             {
               upTo: 12169,
-              base: 0,
               rate: 0.08053,
             },
             {
               upTo: 26288,
-              base: 980,
-              rate: 0.3003,
+              rate: 0.30030,
             },
             {
               upTo: 43071,
-              base: 5219,
               rate: 0.02258,
             },
             {
-              upTo: 129078,
-              base: 5598,
+              upTo: Infinity,
               rate: -0.0651,
             },
           ],
@@ -111,50 +122,55 @@ export const DUTCH_TAX_DATA = {
       brackets: [
         {
           lower: 0,
-          upper: 77000,
-          payrollRate: 0.086,
-          socialRate: 0.273,
+          upper: 38883,
+          payrollRate: 0.081,
+          socialRate: 0.2765,
           label: "Bracket 1",
         },
         {
-          lower: 77000,
-          upper: Infinity,
-          payrollRate: 0.495,
+          lower: 38883,
+          upper: 78426,
+          payrollRate: 0.3756,
           socialRate: 0,
           label: "Bracket 2",
         },
+        {
+          lower: 78426,
+          upper: Infinity,
+          payrollRate: 0.495,
+          socialRate: 0,
+          label: "Bracket 3",
+        },
       ],
       rulingThresholds: {
-        young_masters: 35900,
-        age_30_plus: 47200,
+        young_masters: 36497,
+        age_30_plus: 48013,
+        researcher: 0
       },
+      rulingCap: 262000,
       credits: {
         general: {
-          max: 3150,
-          phaseOutStart: 29000,
-          phaseOutRate: 0.063,
+          max: 3115,
+          phaseOutStart: 29736,
+          phaseOutRate: 0.06398,
         },
         labour: {
           segments: [
             {
-              upTo: 12500,
-              base: 0,
-              rate: 0.08,
+              upTo: 11965,
+              rate: 0.08324,
             },
             {
-              upTo: 27000,
-              base: 1000,
-              rate: 0.297,
+              upTo: 25845,
+              rate: 0.31009,
             },
             {
-              upTo: 44000,
-              base: 5300,
-              rate: 0.022,
+              upTo: 45592,
+              rate: 0.0195,
             },
             {
-              upTo: 130000,
-              base: 5675,
-              rate: -0.064,
+              upTo: Infinity,
+              rate: -0.0651,
             },
           ],
         },

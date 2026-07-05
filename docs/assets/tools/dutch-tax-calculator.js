@@ -32,24 +32,27 @@ function computeGeneralCredit(income, yearConfig) {
   return clampNonNegative(config.max - reduction);
 }
 
-function computeLabourCredit(income, yearConfig) {
+function computeLabourCreditRows(income, yearConfig) {
   const segments = yearConfig.credits.labour.segments;
+  const rows = [];
   let previousUpper = 0;
-  let credit = 0;
 
   for (const segment of segments) {
-    if (income <= segment.upTo) {
-      credit = segment.base + (income - previousUpper) * segment.rate;
-      return clampNonNegative(credit);
-    }
+    const taxableAmount = clampNonNegative(Math.min(income - previousUpper, segment.upTo - previousUpper));
+    const credit = taxableAmount * segment.rate;
+    rows.push({
+      upTo: segment.upTo,
+      rate: segment.rate,
+      taxableAmount,
+      credit,
+    });
     previousUpper = segment.upTo;
+    if (income <= segment.upTo) {
+      break;
+    }
   }
 
-  const lastSegment = segments[segments.length - 1];
-  const overflowCredit =
-    lastSegment.base + (income - lastSegment.upTo) * lastSegment.rate;
-
-  return clampNonNegative(overflowCredit);
+  return rows;
 }
 
 function computeBracketBreakdown(taxableIncome, yearConfig) {
@@ -59,7 +62,10 @@ function computeBracketBreakdown(taxableIncome, yearConfig) {
   for (const bracket of yearConfig.brackets) {
     if (remaining <= 0) {
       rows.push({
+        upper: bracket.upper,
         label: bracket.label,
+        socialRate: bracket.socialRate,
+        payrollRate: bracket.payrollRate,
         taxableAmount: 0,
         socialTax: 0,
         payrollTax: 0,
@@ -76,10 +82,13 @@ function computeBracketBreakdown(taxableIncome, yearConfig) {
     const payrollTax = taxableAmount * bracket.payrollRate;
 
     rows.push({
+      upper: bracket.upper,
       label: bracket.label,
       taxableAmount,
       socialTax,
       payrollTax,
+      socialRate: bracket.socialRate,
+      payrollRate: bracket.payrollRate,
     });
 
     remaining -= taxableAmount;
@@ -91,9 +100,11 @@ function computeBracketBreakdown(taxableIncome, yearConfig) {
 function rulingCategoryLabel(key) {
   switch (key) {
     case "young_masters":
-      return "Young + masters";
+      return "<30 + Masters";
     case "age_30_plus":
-      return "30+";
+      return "Other";
+    case "researcher":
+      return "Researcher";
     default:
       return "None";
   }
@@ -114,10 +125,11 @@ function computeTaxModel(input) {
 
   const totalGross = baseAnnualGross + holidayAllowance;
 
-  const thresholdByCategory = yearConfig.rulingThresholds[input.rulingCategory] || Infinity;
-  const rulingAllowed =
-    input.rulingCategory !== "none" && baseAnnualGross >= thresholdByCategory;
-  const rulingDeduction = rulingAllowed ? totalGross * 0.3 : 0;
+  const thresholdByCategory = yearConfig.rulingThresholds[input.rulingCategory] ?? Infinity;
+  const amountEarnedAboveThreshold = Math.max(0, totalGross - thresholdByCategory);
+  const isDeductionPercentReached = amountEarnedAboveThreshold > totalGross * DUTCH_TAX_DATA.expatDeductionRate;
+  const isDeductionCapReached = totalGross > yearConfig.rulingCap;
+  const rulingDeduction = Math.min(amountEarnedAboveThreshold, totalGross * DUTCH_TAX_DATA.expatDeductionRate, yearConfig.rulingCap * DUTCH_TAX_DATA.expatDeductionRate);
 
   const taxableIncome = clampNonNegative(totalGross - rulingDeduction);
   const bracketRows = computeBracketBreakdown(taxableIncome, yearConfig);
@@ -129,7 +141,8 @@ function computeTaxModel(input) {
   const payrollTax = bracketRows.reduce((sum, row) => sum + row.payrollTax, 0);
 
   const generalTaxCredit = computeGeneralCredit(taxableIncome, yearConfig);
-  const labourTaxCredit = computeLabourCredit(taxableIncome, yearConfig);
+  const labourTaxCreditRows = computeLabourCreditRows(taxableIncome, yearConfig);
+  const labourTaxCredit = clampNonNegative(labourTaxCreditRows.reduce((sum, row) => sum + row.credit, 0));
 
   const netTaxes = socialSecurityTax + payrollTax - generalTaxCredit - labourTaxCredit;
   const annualNetIncome = totalGross - netTaxes;
@@ -140,13 +153,17 @@ function computeTaxModel(input) {
     baseAnnualGross,
     holidayAllowance,
     totalGross,
-    rulingAllowed,
+    rulingCap: yearConfig.rulingCap,
+    thresholdByCategory,
+    isDeductionPercentReached,
+    isDeductionCapReached,
     rulingDeduction,
     taxableIncome,
     bracketRows,
     socialSecurityTax,
     payrollTax,
     generalTaxCredit,
+    labourTaxCreditRows,
     labourTaxCredit,
     netTaxes,
     annualNetIncome,
@@ -164,12 +181,12 @@ function buildOutputTable(model) {
     <table class="tax-output-table" aria-describedby="tax-output-caption">
       <tbody>
         <tr><td>Gross annual income</td><td class="${rowClass(model.baseAnnualGross)}">${toEuro(model.baseAnnualGross)}</td></tr>
-        <tr><td>Holiday Allowance</td><td class="${rowClass(model.holidayAllowance)}">${toEuro(model.holidayAllowance)}</td></tr>
+        <tr><td>Holiday Allowance (${(DUTCH_TAX_DATA.holidayAllowanceRate * 100).toFixed(0)}%)</td><td class="${rowClass(model.holidayAllowance)}">${toEuro(model.holidayAllowance)}</td></tr>
         <tr class="section-final"><td>Total gross income</td><td class="${rowClass(model.totalGross)}">${toEuro(model.totalGross)}</td></tr>
 
         <tr class="section-divider"><td colspan="2"></td></tr>
 
-        <tr><td>30% ruling deduction</td><td class="${rowClass(-model.rulingDeduction)}">${toEuro(-model.rulingDeduction)}</td></tr>
+        <tr><td>Expat ruling deduction</td><td class="${rowClass(-model.rulingDeduction)}">${toEuro(-model.rulingDeduction)}</td></tr>
         <tr class="section-final"><td>Taxable income</td><td class="${rowClass(model.taxableIncome)}">${toEuro(model.taxableIncome)}</td></tr>
 
         <tr class="section-divider"><td colspan="2"></td></tr>
@@ -191,28 +208,112 @@ function buildOutputTable(model) {
 
 function buildCalculationLines(model) {
   const lines = [];
-  const threshold = DUTCH_TAX_DATA.years[model.input.taxYear].rulingThresholds[model.input.rulingCategory];
+  const threshold = model.thresholdByCategory;
+  const yearConfig = DUTCH_TAX_DATA.years[model.input.taxYear] || DUTCH_TAX_DATA.years[2026];
 
   lines.push(`<p>Total income = ${toEuro(model.baseAnnualGross)} + ${toEuro(model.holidayAllowance)} = ${toEuro(model.totalGross)}</p>`);
-  lines.push(
-    `<p>30% ruling (${rulingCategoryLabel(model.input.rulingCategory)}): threshold ${toEuro(
-      threshold || 0,
-    )}, deduction = ${toEuro(model.rulingDeduction)}</p>`,
-  );
+  if (threshold !== Infinity) {
+    if (model.isDeductionCapReached) {
+        lines.push(
+            `<p>Expat Deduction (${rulingCategoryLabel(model.input.rulingCategory)}) =  ${toEuro(model.rulingCap)} x ${DUTCH_TAX_DATA.expatDeductionRate} = ${toEuro(model.rulingDeduction)} (capped)</p>`,
+        );
+    } else if (model.isDeductionPercentReached) {
+        lines.push(
+            `<p>Expat Deduction (${rulingCategoryLabel(model.input.rulingCategory)}) =  ${toEuro(model.totalGross)} x ${DUTCH_TAX_DATA.expatDeductionRate} = ${toEuro(model.rulingDeduction)}</p>`,
+        );
+    }  else {
+        lines.push(
+            `<p>Expat Deduction (${rulingCategoryLabel(model.input.rulingCategory)}) = ${toEuro(model.totalGross)} - ${toEuro(threshold || 0)} = ${toEuro(model.rulingDeduction)} (not high enough above threshold)</p>`,
+        );
+    }
+  }
   lines.push(`<p>Taxable income = ${toEuro(model.totalGross)} - ${toEuro(model.rulingDeduction)} = ${toEuro(model.taxableIncome)}</p>`);
 
-  for (const row of model.bracketRows) {
-    const totalRate = row.taxableAmount === 0 ? 0 : (row.socialTax + row.payrollTax) / row.taxableAmount;
-    lines.push(
-      `<p>${row.label}: income ${toEuro(row.taxableAmount)}, tax rate ${(totalRate * 100).toFixed(2)}%, tax ${toEuro(
-        row.socialTax + row.payrollTax,
-      )}</p>`,
-    );
-  }
+  lines.push(`<p>Tax breakdown by bracket:</p>`);
+  const tableHeaders = [
+    "Bracket",
+    "Amount Earned",
+    "Social Rate",
+    "Payroll Rate",
+    "Total tax",
+  ];
 
-  lines.push(`<p>General tax credit = ${toEuro(model.generalTaxCredit)}</p>`);
-  lines.push(`<p>Labour tax credit = ${toEuro(model.labourTaxCredit)}</p>`);
-  lines.push(`<p>Net taxes = ${toEuro(model.netTaxes)}</p>`);
+  const tableRows = model.bracketRows.map((row) => {
+    const socialRate = row.socialRate;
+    const payrollRate = row.payrollRate;
+    const totalTax = row.socialTax + row.payrollTax;
+    return [
+      `<= ${toEuro(row.upper)}`,
+      `${toEuro(row.taxableAmount)}`,
+      `${(socialRate * 100).toFixed(2)}%`,
+      `${(payrollRate * 100).toFixed(2)}%`,
+      `${toEuro(totalTax)}`,
+    ];
+  });
+
+  const colWidths = tableHeaders.map((header, colIndex) => {
+    const maxCellWidth = Math.max(
+      ...tableRows.map((row) => row[colIndex].length),
+      header.length,
+    );
+    return maxCellWidth;
+  });
+
+  const formatRow = (cells) => {
+    const padded = cells.map((cell, idx) => cell.padEnd(colWidths[idx], " "));
+    return `| ${padded.join(" | ")} |`;
+  };
+
+  const separator = `+-${colWidths.map((width) => "-".repeat(width)).join("-+-")}-+`;
+  const asciiTable = [
+    separator,
+    formatRow(tableHeaders),
+    separator,
+    ...tableRows.map((row) => formatRow(row)),
+    separator,
+  ].join("\n");
+
+  lines.push(`<pre>${asciiTable}</pre>`);
+
+  const generalConfig = yearConfig.credits.general;
+  const clawbackIncome = Math.max(0, model.taxableIncome - generalConfig.phaseOutStart);
+  lines.push(`<p>Amount above General Credit Phase-out = ${toEuro(model.taxableIncome)} - ${toEuro(generalConfig.phaseOutStart)} = ${toEuro(clawbackIncome)}</p>`);
+  lines.push(
+    `<p>General tax credit = ${toEuro(generalConfig.max)} - (${(generalConfig.phaseOutRate * 100).toFixed(3)}% x ${toEuro(clawbackIncome)}) = ${toEuro(model.generalTaxCredit)}</p>`,
+  );
+
+  lines.push(`<p>Labour tax credit breakdown by segment:</p>`);
+  const labourHeaders = ["Segment", "Amount in segment", "Rate", "Credit"]; 
+  const labourRows = model.labourTaxCreditRows.map((row, index) => [
+    `<= ${toEuro(row.upTo)}`,
+    toEuro(row.taxableAmount),
+    `${(row.rate * 100).toFixed(3)}%`,
+    toEuro(row.credit),
+  ]);
+
+  const labourWidths = labourHeaders.map((header, colIndex) => {
+    const maxCellWidth = Math.max(
+      ...labourRows.map((row) => row[colIndex].length),
+      header.length,
+    );
+    return maxCellWidth;
+  });
+
+  const formatLabourRow = (cells) => {
+    const padded = cells.map((cell, idx) => cell.padEnd(labourWidths[idx], " "));
+    return `| ${padded.join(" | ")} |`;
+  };
+
+  const labourSeparator = `+-${labourWidths.map((width) => "-".repeat(width)).join("-+-")}-+`;
+  const labourTable = [
+    labourSeparator,
+    formatLabourRow(labourHeaders),
+    labourSeparator,
+    ...labourRows.map((row) => formatLabourRow(row)),
+    labourSeparator,
+  ].join("\n");
+
+  lines.push(`<pre>${labourTable}</pre>`);
 
   return lines.join("");
 }
@@ -252,7 +353,7 @@ function drawSankey(model, chartEl) {
 
   const rows = [];
 
-  rows.push(["Total income", "30% deduction", model.rulingDeduction]);
+  rows.push(["Total income", "Expat deduction", model.rulingDeduction]);
   rows.push(["Total income", "Taxable income", model.taxableIncome]);
 
   model.bracketRows.forEach((row, index) => {
@@ -299,6 +400,10 @@ function buildMarkup(years) {
         <div class="dutch-tax-page__title-wrap">
         <h2 class="dutch-tax-page__title">Dutch Tax Calculator</h2>
         </div>
+        
+        <div class="dutch-tax-page__content">
+        <p class="dutch-tax-page__description">This is a simple tool I made to estimate your net income in the Netherlands. No guarantees are made regarding the accuracy of the calculations. Consult a tax professional before making any financial decisions.</p>
+        </div>
 
         <div class="tool-shell">
             <div class="tool-card tool-card--inputs">
@@ -330,9 +435,10 @@ function buildMarkup(years) {
                 </div>
 
                 <div class="tax-form__row">
-                    <label for="ruling-category">30% ruling category</label>
+                    <label for="ruling-category">Expat ruling category</label>
                     <select id="ruling-category" name="rulingCategory">
                     <option value="none">None</option>
+                    <option value="researcher">Researcher</option>
                     <option value="young_masters">Under 30 + Masters</option>
                     <option value="age_30_plus">Other</option>
                     </select>
