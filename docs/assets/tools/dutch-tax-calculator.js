@@ -398,11 +398,11 @@ function buildMarkup(years) {
     <section class="dutch-tax-page" aria-label="Dutch tax calculator">
       <div class="dutch-tax-page__outer">
         <div class="dutch-tax-page__title-wrap">
-        <h2 class="dutch-tax-page__title">Dutch Tax Calculator</h2>
+        <h2 class="dutch-tax-page__title">Dutch Income Tax Calculator</h2>
         </div>
         
         <div class="dutch-tax-page__content">
-        <p class="dutch-tax-page__description">This is a simple tool I made to estimate your net income in the Netherlands. No guarantees are made regarding the accuracy of the calculations. Consult a tax professional before making any financial decisions.</p>
+        <p class="dutch-tax-page__description">This is a simple tool I made to estimate your net income in the Netherlands (Box 1). No guarantees are made regarding the accuracy of the calculations. Consult a tax professional before making any financial decisions.</p>
         </div>
 
         <div class="tool-shell">
