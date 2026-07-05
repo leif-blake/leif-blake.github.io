@@ -1,0 +1,304 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+:root {
+  --tools-bg: radial-gradient(circle at 15% 20%, #d8f6ff 0%, #f4f8ff 35%, #f9fafb 75%);
+  --tools-panel: #ffffff;
+  --tools-ink: #152033;
+  --tools-muted: #53627a;
+  --tools-accent: #0457d3;
+  --tools-accent-soft: #d9e7ff;
+  --tools-border: #d1d9e8;
+  --tools-line: #99a8c0;
+  --tools-negative: #b42318;
+}
+
+.tools-shell {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.tools-shell__toolbar {
+  align-items: center;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.tools-shell__select-label {
+  color: var(--tools-muted);
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  font-size: 0.85rem;
+}
+
+.tools-shell__select {
+  background: #fff;
+  border: 1px solid #8ea1bf;
+  border-radius: 8px;
+  color: var(--tools-ink);
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+  min-width: 210px;
+  padding: 0.45rem 0.6rem;
+}
+
+.tools-shell__host {
+  min-height: 420px;
+}
+
+.tools-shell__permalink {
+  color: var(--tools-accent);
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  font-size: 0.86rem;
+  font-weight: 500;
+  margin-left: auto;
+  text-decoration: none;
+}
+
+.tools-shell__permalink:hover,
+.tools-shell__permalink:focus-visible {
+  text-decoration: underline;
+}
+
+.dutch-tax-page__outer {
+  animation: frame-rise 0.5s ease-out;
+  background: var(--tools-bg);
+  border: 1px solid #121212;
+  border-radius: 15px;
+  margin: 0 auto;
+  max-width: 860px;
+  padding: 1rem;
+}
+
+.dutch-tax-page__title-wrap {
+  align-items: center;
+  display: flex;
+  gap: 0.55rem;
+}
+
+.dutch-tax-page__title {
+  color: var(--tools-ink);
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.tool-shell {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.tool-card {
+  animation: card-in 0.55s ease both;
+  background: var(--tools-panel);
+  border-radius: 3px;
+  box-shadow: 0 6px 24px rgba(13, 30, 56, 0.09);
+  padding: 0.9rem;
+}
+
+.tool-card h2,
+.tool-card h3 {
+  color: var(--tools-ink);
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  font-size: 1rem;
+  margin: 0 0 0.65rem;
+}
+
+.tool-card--inputs {
+  border: 1px solid #7e7e7e;
+  border-radius: 8px;
+}
+
+.tool-card--outputs {
+  animation-delay: 0.08s;
+  border: 1px solid #7e7e7e;
+  border-radius: 8px;
+}
+
+.tool-card--chart {
+  animation-delay: 0.16s;
+  border: 1px solid #7e7e7e;
+  border-radius: 8px;
+}
+
+.tax-form {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.tax-form__row {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.tax-form label {
+  color: var(--tools-muted);
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  font-size: 0.88rem;
+}
+
+.tax-form input,
+.tax-form select {
+  border: 1px solid var(--tools-border);
+  border-radius: 8px;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  font-size: 0.92rem;
+  padding: 0.5rem 0.6rem;
+}
+
+.tax-form__row--check {
+  align-items: center;
+  display: flex;
+}
+
+.tax-output-table {
+  border-collapse: collapse;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  width: 100%;
+  border: None;
+}
+
+.tax-output-table td,
+.tax-output-table th {
+  background-color: #ffffff;
+  padding: 0.32rem 0.4rem;
+  border: none;
+}
+
+.tax-output-table th {
+  color: var(--tools-ink);
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.tax-output-table td:last-child {
+  text-align: right;
+}
+
+.section-title {
+  font-weight: 700;
+}
+
+.section-final {
+  font-weight: 700;
+}
+
+.section-divider td {
+  border-bottom: 2px dashed var(--tools-line);
+  padding-bottom: 0.45rem;
+}
+
+.section-net {
+  font-weight: 700;
+}
+
+.value-positive {
+  color: #101828;
+}
+
+.value-negative {
+  color: var(--tools-negative);
+}
+
+.sankey-chart {
+  min-height: 280px;
+  width: 100%;
+}
+
+.chart-error {
+  color: var(--tools-negative);
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  margin: 0;
+}
+
+.dutch-tax-page__details {
+  margin-top: 1rem;
+  border-top: 1px solid var(--tools-border);
+  padding-top: 1rem;
+}
+
+.dutch-tax-page__details summary {
+  color: var(--tools-ink);
+  cursor: pointer;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  list-style: none;
+}
+
+.dutch-tax-page__details summary::-webkit-details-marker {
+  display: none;
+}
+
+.dutch-tax-page__details summary::before {
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 14px solid #111;
+  content: "";
+  display: inline-block;
+  margin-right: 0.6rem;
+  transform: rotate(0deg) translateY(2px);
+  transition: transform 0.2s ease;
+}
+
+.dutch-tax-page__details[open] summary::before {
+  transform: rotate(180deg) translateY(2px);
+}
+
+.dutch-tax-page__details-content {
+  color: #23314a;
+  font-family: "IBM Plex Mono", "Consolas", monospace;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  margin-top: 0.4rem;
+  padding: 0.4rem 0 0.6rem;
+}
+
+.dutch-tax-page__details-content p {
+  margin: 0.1rem 0;
+}
+
+@media (max-width: 700px) {
+  .tools-shell__toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .tools-shell__select {
+    width: 100%;
+  }
+
+  .tools-shell__permalink {
+    margin-left: 0;
+  }
+
+  .dutch-tax-page__outer {
+    margin: 1rem auto;
+    padding: 0.6rem;
+  }
+
+  .dutch-tax-page__inner {
+    padding: 0.6rem;
+  }
+}
+
+@keyframes frame-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
