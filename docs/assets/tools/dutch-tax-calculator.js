@@ -457,7 +457,7 @@ function buildMarkup(years) {
             </div>
         </div>
 
-        <details class="dutch-tax-page__details" id="dutch-tax-calculation-details" open>
+        <details class="dutch-tax-page__details" id="dutch-tax-calculation-details" closed>
         <summary>Detailed Calculations</summary>
         <div class="dutch-tax-page__details-content" id="dutch-tax-calculation-lines"></div>
         </details>
