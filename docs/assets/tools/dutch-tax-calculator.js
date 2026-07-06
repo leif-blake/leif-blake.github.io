@@ -350,27 +350,59 @@ function drawSankey(model, chartEl) {
   dataTable.addColumn("string", "From");
   dataTable.addColumn("string", "To");
   dataTable.addColumn("number", "Amount");
+  // 1. Add a dedicated column for the custom HTML tooltip
+  dataTable.addColumn({ type: "string", role: "tooltip", p: { html: true } });
 
-  const rows = [];
-
-  rows.push(["Total income", "Expat deduction", model.rulingDeduction]);
-  rows.push(["Total income", "Taxable income", model.taxableIncome]);
+  const rawRows = [];
+  rawRows.push(["Gross income", "Expat deduction", model.rulingDeduction]);
+  rawRows.push(["Expat deduction", "Net income", model.rulingDeduction]);
+  rawRows.push(["Gross income", "Taxable income", model.taxableIncome]);
 
   model.bracketRows.forEach((row, index) => {
     const bracketNode = `${row.label}`;
     const bracketTaxNode = `Tax ${index + 1}`;
-    rows.push(["Taxable income", bracketNode, row.taxableAmount]);
-    rows.push([bracketNode, bracketTaxNode, row.socialTax + row.payrollTax]);
+    rawRows.push(["Taxable income", bracketNode, row.taxableAmount]);
+    rawRows.push([bracketNode, "Governement", row.socialTax + row.payrollTax]);
+    rawRows.push([bracketNode, "Net income", row.taxableAmount - (row.socialTax + row.payrollTax)]);
   });
 
-  rows.push(["Taxable income", "Net income", model.annualNetIncome]);
+  rawRows.push(["Governement", "Credits", model.labourTaxCredit + model.generalTaxCredit]);
+  rawRows.push(["Credits", "Net income", model.labourTaxCredit + model.generalTaxCredit]);
+  rawRows.push(["Governement", "Net taxes", model.socialSecurityTax + model.payrollTax - model.generalTaxCredit - model.labourTaxCredit]);
 
-  dataTable.addRows(rows.filter((row) => row[2] > 0));
+  // 2. Instantiate the formatter 
+  const formatter = new window.google.visualization.NumberFormat({
+    pattern: "#,##0.00",
+  });
+
+  // 3. Filter rows and map them to include the pre-formatted HTML tooltip string
+  const processedRows = rawRows
+    .filter((row) => row[2] > 0)
+    .map((row) => {
+      const from = row[0];
+      const to = row[1];
+      const amount = row[2];
+      const formattedAmount = formatter.formatValue(amount);
+      
+      // Construct a clean custom HTML layout mimicking the original look
+      const tooltipHtml = `
+        <div style="padding: 10px; font-family: 'IBM Plex Sans'; font-size: 13px; color: #1e2a3a; background: #fff; border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-radius: 4px;">
+          <strong>${from} &rarr; ${to}</strong><br/>
+          <span>Amount: <b>${formattedAmount}</b></span>
+        </div>
+      `;
+      
+      return [from, to, amount, tooltipHtml];
+    });
+
+  dataTable.addRows(processedRows);
 
   const chart = new window.google.visualization.Sankey(chartEl);
   chart.draw(dataTable, {
     width: chartEl.clientWidth,
     height: 260,
+    // 4. Instruct the chart to render custom HTML tooltips
+    tooltip: { isHtml: true }, 
     sankey: {
       node: {
         width: 14,
