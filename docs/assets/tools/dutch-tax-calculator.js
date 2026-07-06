@@ -168,6 +168,7 @@ function computeTaxModel(input) {
     netTaxes,
     annualNetIncome,
     monthlyNetIncome,
+    effectiveTaxRate: (netTaxes / totalGross) * 100,
   };
 }
 
@@ -201,6 +202,7 @@ function buildOutputTable(model) {
 
         <tr class="section-net"><td>Annual net income</td><td class="${rowClass(model.annualNetIncome, "section-net")}">${toEuro(model.annualNetIncome)}</td></tr>
         <tr class="section-net"><td>Monthly net income</td><td class="${rowClass(model.monthlyNetIncome, "section-net")}">${toEuro(model.monthlyNetIncome)}</td></tr>
+        <tr class="section-net"><td>Effective Tax Rate</td><td class="${rowClass(model.effectiveTaxRate, "section-net")}">${model.effectiveTaxRate.toFixed(2)}%</td></tr>
       </tbody>
     </table>
   `;
