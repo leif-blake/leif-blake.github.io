@@ -225,7 +225,7 @@ function buildCalculationLines(model) {
         );
     }  else {
         lines.push(
-            `<p>Expat Deduction (${rulingCategoryLabel(model.input.rulingCategory)}) = ${toEuro(model.totalGross)} - ${toEuro(threshold || 0)} = ${toEuro(model.rulingDeduction)} (not high enough above threshold)</p>`,
+            `<p>Expat Deduction (${rulingCategoryLabel(model.input.rulingCategory)}) = ${toEuro(model.totalGross)} - ${toEuro(threshold || 0)} = ${toEuro(model.rulingDeduction)} (taxable income cannot go below threshold)</p>`,
         );
     }
   }
