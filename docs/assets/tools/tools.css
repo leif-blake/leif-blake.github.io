@@ -10,6 +10,7 @@
   --tools-border: #d1d9e8;
   --tools-line: #99a8c0;
   --tools-negative: #b42318;
+  --tools-negative-good: #358b31;
 }
 
 .tools-shell {
@@ -197,6 +198,10 @@
 
 .value-negative {
   color: var(--tools-negative);
+}
+
+.value-negative-good {
+  color: var(--tools-negative-good);
 }
 
 .sankey-chart {

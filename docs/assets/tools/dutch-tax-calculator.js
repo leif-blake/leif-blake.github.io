@@ -186,7 +186,7 @@ function buildOutputTable(model) {
 
         <tr class="section-divider"><td colspan="2"></td></tr>
 
-        <tr><td>Expat ruling deduction</td><td class="${rowClass(-model.rulingDeduction)}">${toEuro(-model.rulingDeduction)}</td></tr>
+        <tr><td>Expat ruling deduction</td><td class="${rowClass(-model.rulingDeduction)}-good">${toEuro(-model.rulingDeduction)}</td></tr>
         <tr class="section-final"><td>Taxable income</td><td class="${rowClass(model.taxableIncome)}">${toEuro(model.taxableIncome)}</td></tr>
 
         <tr class="section-divider"><td colspan="2"></td></tr>
