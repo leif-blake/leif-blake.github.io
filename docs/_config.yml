@@ -24,7 +24,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Hi, I'm Leif. This is my blog where I explore topics that interest me, especially
   little stories hidden in the data around us. Feel free to reach out by email!
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://leifblake.ca" # the base hostname & protocol for your site
 github_username:  leif-blake
 youtube_username: "@IsThisRealLeif"
 BASE_PATH : "/docs"
@@ -36,6 +36,7 @@ header_pages:
   - tools.markdown
 plugins:
   - jekyll-feed
+  - jekyll-sitemap
 
 # Exclude from processing.
 # The following items will not be processed, by default.

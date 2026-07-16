@@ -104,6 +104,13 @@
   margin: 0 0 0.65rem;
 }
 
+.tool-card__subheader {
+  color: var(--tools-muted);
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
 .tool-card--inputs {
   border: 1px solid #7e7e7e;
   border-radius: 8px;
