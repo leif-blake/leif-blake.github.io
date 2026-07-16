@@ -320,107 +320,152 @@ function buildCalculationLines(model) {
   return lines.join("");
 }
 
-function ensureGoogleCharts() {
-  if (chartsLoaderPromise) {
-    return chartsLoaderPromise;
+let plotlyLoaderPromise = null;
+
+function ensurePlotly() {
+  if (plotlyLoaderPromise) {
+    return plotlyLoaderPromise;
   }
 
-  chartsLoaderPromise = new Promise((resolve, reject) => {
-    if (window.google && window.google.charts) {
-      window.google.charts.load("current", { packages: ["sankey"] });
-      window.google.charts.setOnLoadCallback(resolve);
+  plotlyLoaderPromise = new Promise((resolve, reject) => {
+    // If Plotly is already attached to the window, resolve immediately
+    if (window.Plotly) {
+      resolve();
       return;
     }
 
     const script = document.createElement("script");
-    script.src = "https://www.gstatic.com/charts/loader.js";
+    // Using the latest 2.x minified bundle
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.35.0/plotly.min.js"; 
     script.async = true;
     script.onload = () => {
-      window.google.charts.load("current", { packages: ["sankey"] });
-      window.google.charts.setOnLoadCallback(resolve);
+      resolve();
     };
-    script.onerror = () => reject(new Error("Google Charts failed to load."));
+    script.onerror = () => reject(new Error("Plotly failed to load."));
 
     document.head.appendChild(script);
   });
 
-  return chartsLoaderPromise;
+  return plotlyLoaderPromise;
 }
 
 function drawSankey(model, chartEl) {
-  const dataTable = new window.google.visualization.DataTable();
-  dataTable.addColumn("string", "From");
-  dataTable.addColumn("string", "To");
-  dataTable.addColumn("number", "Amount");
-  // 1. Add a dedicated column for the custom HTML tooltip
-  dataTable.addColumn({ type: "string", role: "tooltip", p: { html: true } });
+  // 1. Build all links first
+  const rawLinks = [];
+  rawLinks.push({ source: "Gross income", target: "Net income", value: model.rulingDeduction, hoverText: "Expat scheme deduction" });
+  rawLinks.push({ source: "Gross income", target: "Taxable income", value: model.taxableIncome });
 
-  const rawRows = [];
-  rawRows.push(["Gross income", "Expat deduction", model.rulingDeduction]);
-  rawRows.push(["Expat deduction", "Net income", model.rulingDeduction]);
-  rawRows.push(["Gross income", "Taxable income", model.taxableIncome]);
-
-  model.bracketRows.forEach((row, index) => {
-    const bracketNode = `${row.label}`;
-    const bracketTaxNode = `Tax ${index + 1}`;
-    rawRows.push(["Taxable income", bracketNode, row.taxableAmount]);
-    rawRows.push([bracketNode, "Governement", row.socialTax + row.payrollTax]);
-    rawRows.push([bracketNode, "Net income", row.taxableAmount - (row.socialTax + row.payrollTax)]);
+  model.bracketRows.forEach((row) => {
+    rawLinks.push({ source: "Taxable income", target: row.label, value: row.taxableAmount });
+    rawLinks.push({ source: row.label, target: "Government", value: row.socialTax + row.payrollTax, hoverText: `${row.label} tax`});
+    rawLinks.push({ source: row.label, target: "Net income", value: row.taxableAmount - (row.socialTax + row.payrollTax), hoverText: `${row.label} net income` });
   });
 
-  rawRows.push(["Governement", "Credits", model.labourTaxCredit + model.generalTaxCredit]);
-  rawRows.push(["Credits", "Net income", model.labourTaxCredit + model.generalTaxCredit]);
-  rawRows.push(["Governement", "Net taxes", model.socialSecurityTax + model.payrollTax - model.generalTaxCredit - model.labourTaxCredit]);
+  rawLinks.push({ source: "Government", target: "Net income", value: model.labourTaxCredit + model.generalTaxCredit, hoverText: "Tax credits" });
+  rawLinks.push({ source: "Government", target: "Net taxes", value: model.socialSecurityTax + model.payrollTax - model.generalTaxCredit - model.labourTaxCredit, hoverText: "Net taxes" });
 
-  // 2. Instantiate the formatter 
-  const formatter = new window.google.visualization.NumberFormat({
-    pattern: "#,##0.00",
+  // 2. Filter out 0-value flows to permanently fix Plotly's Orphan Node bug
+  const activeLinks = rawLinks.filter(link => link.value > 0);
+
+  // 3. Extract unique nodes ONLY from active flows
+  const activeNodesSet = new Set();
+  activeLinks.forEach(link => {
+    activeNodesSet.add(link.source);
+    activeNodesSet.add(link.target);
+  });
+  const nodes = Array.from(activeNodesSet);
+
+  // 4. DYNAMIC COORDINATE ENGINE (SCALED DOWN FOR MORE ROOM)
+  // These are the compressed anchor points that prevent top/bottom clipping
+  const staticPositions = {
+    "Gross income":   { x: 0.001, y: 0.15 }, 
+    "Taxable income": { x: 0.25,  y: 0.45 },
+    "Government":     { x: 0.75,  y: 0.65 },
+    "Credits":        { x: 0.85,  y: 0.5 },
+    "Net income":     { x: 0.999, y: 0.15 }, 
+    "Net taxes":      { x: 0.999, y: 0.85 }  
+  };
+
+  const activeBrackets = model.bracketRows
+    .map(row => row.label)
+    .filter(label => activeNodesSet.has(label));
+
+  const xCoords = [];
+  const yCoords = [];
+
+  nodes.forEach(node => {
+    if (staticPositions[node]) {
+      // Pin the static structural nodes
+      xCoords.push(staticPositions[node].x);
+      yCoords.push(staticPositions[node].y);
+    } else {
+      // Mathematically space out the dynamic tax brackets in column 3
+      const index = activeBrackets.indexOf(node);
+      const count = activeBrackets.length;
+
+      xCoords.push(0.5); // Center column horizontally
+
+      if (count === 1) {
+        yCoords.push(0.5); // Dead center if there is only 1 bracket
+      } else {
+        // Automatically spread multiple brackets evenly. 
+        // Compressed bounds to keep the center blocks away from the edges
+        const minY = 0.30;
+        const maxY = 0.70;
+        const step = (maxY - minY) / (count - 1);
+        
+        yCoords.push(minY + (index * step)); 
+      }
+    }
   });
 
-  // 3. Filter rows and map them to include the pre-formatted HTML tooltip string
-  const processedRows = rawRows
-    .filter((row) => row[2] > 0)
-    .map((row) => {
-      const from = row[0];
-      const to = row[1];
-      const amount = row[2];
-      const formattedAmount = formatter.formatValue(amount);
-      
-      // Construct a clean custom HTML layout mimicking the original look
-      const tooltipHtml = `
-        <div style="padding: 10px; font-family: 'IBM Plex Sans'; font-size: 13px; color: #1e2a3a; background: #fff; border: 1px solid #ccc; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-radius: 4px;">
-          <strong>${from} &rarr; ${to}</strong><br/>
-          <span>Amount: <b>${formattedAmount}</b></span>
-        </div>
-      `;
-      
-      return [from, to, amount, tooltipHtml];
-    });
+  // 5. Translate string names into integer index arrays for Plotly
+  const sources = [];
+  const targets = [];
+  const values = [];
+  const hoverText = [];
 
-  dataTable.addRows(processedRows);
+  activeLinks.forEach(link => {
+    sources.push(nodes.indexOf(link.source));
+    targets.push(nodes.indexOf(link.target));
+    values.push(link.value);
+    hoverText.push(link.hoverText || "");
+  });
 
-  const chart = new window.google.visualization.Sankey(chartEl);
-  chart.draw(dataTable, {
-    width: chartEl.clientWidth,
-    height: 260,
-    // 4. Instruct the chart to render custom HTML tooltips
-    tooltip: { isHtml: true }, 
-    sankey: {
-      node: {
-        width: 14,
-        nodePadding: 20,
-        label: {
-          fontName: "IBM Plex Sans",
-          fontSize: 12,
-          color: "#1e2a3a",
-        },
-        colors: ["#1f6feb", "#e74c3c", "#2b9348", "#f4b400", "#0b8f8c", "#2f3640"],
-      },
-      link: {
-        colorMode: "gradient",
-      },
+  // 6. Package and Render
+  const data = [{
+    type: "sankey",
+    arrangement: "fixed", 
+    node: {
+      label: nodes,
+      x: xCoords,
+      y: yCoords,
+      pad: 15,
+      thickness: 10,
+      color: ["#1f6feb", "#e74c3c", "#2b9348", "#f4b400", "#0b8f8c", "#2f3640", "#9b59b6"]
     },
-  });
+    link: {
+      source: sources,
+      target: targets,
+      value: values,
+      customdata: hoverText,
+      hovertemplate: "%{customdata}<br>%{value:,.2f} EUR<br>%{source.label} → %{target.label}<extra></extra>",
+      color: values.map(() => "rgba(31, 111, 235, 0.15)") 
+    }
+  }];
+
+  const layout = {
+    height: 320, // Bumped up slightly for breathing room
+    margin: { t: 40, b: 40, l: 15, r: 15 }, // Expanded safety margins to stop clipping
+    font: {
+      family: "IBM Plex Sans, sans-serif",
+      size: 12,
+      color: "#1e2a3a"
+    }
+  };
+
+  chartEl.innerHTML = ''; 
+  window.Plotly.newPlot(chartEl, data, layout, { displayModeBar: false });
 }
 
 function buildMarkup(years) {
@@ -532,9 +577,10 @@ export function initDutchTaxCalculator({ host }) {
     detailsHost.innerHTML = buildCalculationLines(model);
 
     try {
-      await ensureGoogleCharts();
+      await ensurePlotly();
       drawSankey(model, chartEl);
     } catch (error) {
+      console.error("Error loading Plotly or drawing Sankey chart:", error);
       chartEl.innerHTML = `<p class="chart-error">Unable to load Sankey chart.</p>`;
     }
   };
