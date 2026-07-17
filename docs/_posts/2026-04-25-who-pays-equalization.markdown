@@ -43,23 +43,14 @@ Now let's dive in!
 
 ## 1. The baseline of Equalization in 2022
 
-The classic representation of Equalization is in dollars received per capita. This tells us the "gross" benefit of Equalization, but doesn't indicate who bears the costs or the net benefit to the "have not" Provinces. In 2022, the table looked like this, with Provinces ranked from most money received to least:
+The classic representation of Equalization is in dollars received per capita. This tells us the "gross" benefit of Equalization, but doesn't indicate who bears the costs or the net benefit to the "have not" Provinces. In 2022, 5 out of 10 Provinces received Equalization payments.
 
-| Province | 2022 Gross Equalization ($/capita) |
-| :--- | ---: |
-| Prince Edward Island | 3194.44 |
-| New Brunswick | 3097.53 |
-| Nova Scotia | 2492.65 |
-| Manitoba | 2116.62 |
-| Quebec | 1664.17 |
-| Alberta | 0.00 |
-| British Columbia | 0.00 |
-| Newfoundland and Labrador | 0.00 |
-| Northwest Territories | 0.00 |
-| Nunavut | 0.00 |
-| Ontario | 0.00 |
-| Saskatchewan | 0.00 |
-| Yukon | 0.00 |
+<iframe
+    src="{{ '/assets/html/map_raw_equalization_per_capita_2022.html' | relative_url }}"
+    title="Raw Equalization per capita map"
+    loading="lazy"
+    style="width: 100%; height: 475px; border: 0;"
+></iframe>
 
 ## 2. Increasing spend on other programs
 
@@ -68,21 +59,12 @@ The classic representation of Equalization is in dollars received per capita. Th
 
 Canada has three major federal-provincial transfer programs, only one of which (Equalization) is not simply a function of each Province's population. So why not simply re-alocate the Equalization money to these programs? Under this regime, all the Provinces who did not receive Equalization would benefit equally, to the tune of $590.77 per capita. By this logic, Equalization cost on net $590.77 for the citizens of "have" Provinces in 2022. The net benefit of Equalization is also reduced by this amount for each of the have not Provinces.
 
-| Province                  | 2022 Net Equalization, per capita adjustment ($/capita) |
-| ------------------------- | ------------------------------------------------------- |
-| Prince Edward Island      | 2603.66538383103                                        |
-| New Brunswick             | 2506.75806204841                                        |
-| Nova Scotia               | 1901.87406633229                                        |
-| Manitoba                  | 1525.84896185543                                        |
-| Quebec                    | 1073.39772940038                                        |
-| Alberta                   | \-590.774981149158                                      |
-| British Columbia          | \-590.774981149158                                      |
-| Newfoundland and Labrador | \-590.774981149158                                      |
-| Northwest Territories     | \-590.774981149158                                      |
-| Nunavut                   | \-590.774981149158                                      |
-| Ontario                   | \-590.774981149158                                      |
-| Saskatchewan              | \-590.774981149158                                      |
-| Yukon                     | \-590.774981149158                                      |
+<iframe
+    src="{{ '/assets/html/map_federal_net_change_per_capita_2026_population_flat_transfer_2022.html' | relative_url }}"
+    title="Equalization net benefit per capita map under flat transfer replacement model"
+    loading="lazy"
+    style="width: 100%; height: 475px; border: 0;"
+></iframe>
 
 ### 2.2 Old age security
 
@@ -90,21 +72,12 @@ This is where it starts to get interesting. It may not seem logical to re-alloca
 
 In this hypothetical scenario, we see a very different distribution in the net benefits of Equalization. Most of the have-nots are better off than under the per-capita model, reflecting their older populations. Manitoba is the exception, which sees fewer benefits from Equalization as compared to the enlarged OAS spending scenario. The big loser in this scenario is Newfoundland and Labrador, whose aging population brings in disproportionately high levels of OAS. Alberta, comparatively rich but relevatively young, does not see as much burden from Equalization.
 
-| Province                  | 2022 Net Equalization, OAS adjustment ($/capita) |
-| ------------------------- | ------------------------------------------------ |
-| Prince Edward Island      | 2504.28553880418                                 |
-| New Brunswick             | 2330.09554607613                                 |
-| Nova Scotia               | 1757.98261769486                                 |
-| Manitoba                  | 1566.32344139222                                 |
-| Quebec                    | 970.23424644602                                  |
-| Nunavut                   | 0                                                |
-| Northwest Territories     | \-440.953869686139                               |
-| Alberta                   | \-454.95397753642                                |
-| Yukon                     | \-463.928870833379                               |
-| Ontario                   | \-553.07709945907                                |
-| Saskatchewan              | \-570.233682487025                               |
-| British Columbia          | \-587.999294038801                               |
-| Newfoundland and Labrador | \-808.685325092278                               |
+<iframe
+    src="{{ '/assets/html/map_federal_net_change_per_capita_2026_oas_even_increase_2022.html' | relative_url }}"
+    title="Equalization net benefit per capita map under OAS increase replacement model"
+    loading="lazy"
+    style="width: 100%; height: 475px; border: 0;"
+></iframe>
 
 ## 3. Lowering taxes
 
