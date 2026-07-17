@@ -6,20 +6,22 @@ date:   2026-04-25 17:00:00 +0200
 
 ## Introduction
 
-Equalization has long been a contentious issue in Canadian politics, and with fresh independence movements brewing in Quebec and Alberta, we must also be wary that it's one the most misunderstood. The program is frequently cited as a transfer of wealth from Canada's "have" Provinces, to the "have nots". In Quebec's case, this was to the tune of 13.6 billion dollars in the 2025/2026 fiscal year. Alberta, a long-serving member of the "have" community (since 1966!), received nothing.
+Equalization has long been a contentious issue in Canadian politics, and with fresh independence movements brewing in Quebec and Alberta, we should recognize that it's one of the most misunderstood. The program is frequently cited as a transfer of wealth from Canada's "have" Provinces, to the "have nots". In Quebec's case, this was to the tune of 13.6 billion dollars in the 2025/2026 fiscal year. Alberta, a long-serving member of the "have" community (since 1966!), received nothing. However, there are some improtant nuances that are missed in this narrative.
 
-I won't be explaining the details of Equalization, as many have done so in great detail. I recommend [this policy brief][link-policy-brief] from former Deputy Finance Minister Louis Lévesque for a solid explanantion of the program and a modern overview of the debate surrounding it. All I will do is point out that while the transfers are handed out to Provincial governments, the money for Equalization comes from the the Federal government's general revenue. This is an important distinction for two reasons:
+I won't be explaining the details of Equalization, as many have done so in great detail. I recommend [this policy brief][link-policy-brief] from former Deputy Finance Minister Louis Lévesque for a solid explanation of the program and a modern overview of the debate surrounding it. All I will do is point out that while the transfers are handed out to Provincial governments, the money for Equalization comes from the the Federal government's general revenue. This is an important distinction for two reasons:
 
 1. The money is coming from individuals and corporations. Someone earning $100k in Quebec pays the same in Federal taxes as someone earning $100k in Alberta
 1. Some of that Federal revenue is generated in the "have not" Provinces themselves
 
-By looking soley at the payments, and ignoring the funding, we exagerate the true scale and "unfairness" of the program. Moreover, we must consider what taxes have been levied to pay for it in the first place. Flipping the argument on its head, if we were to cancel the Equalization program tomorrow, what tax cuts would we enjoy in its absence, or what other programs would see more funds allocated in its place? In such a scenario, I will evaluate who benefits from and pays for the program by retroactively applying this policy change, and evaluating the per capita inflow of Equalization vs the alternative, all else being equal.
+By looking solely at the payments, and ignoring the funding, we exaggerate the true scale and "unfairness" of the program. Moreover, we must consider what taxes have been levied to pay for it in the first place. Flipping the argument on its head, if we were to cancel the Equalization program tomorrow, what tax cuts would we enjoy in its absence, or what other programs would see more funds allocated in its place? As we will see, the distribution of costs and benefits vary by the choice of alternative policy.
+
+Despite Equalization payments of some form being [constitutionally enshrined][link-constitution], I will examine several options the Federal government could adopt by re-allocating the entire cost of the Equalization program. Under each alternative policy, I will determine who benefits from and pays for Equalization by retroactively applying the policy change. The benefit of equalization is then calculated by the amount received by a Province, minus the amount they would have received under an alternative policy. For a tax policy, the tax savings they would have received under the alternative policy is subtracted instead.
 
 \begin{equation}
-BENEFIT_{Equalization} = INFLOW_{Equalization} - \Delta INFLOW_{Alternative}
+BENEFIT_{Equalization} = INFLOW_{Equalization} - INFLOW_{Alternative}
 \end{equation}
 
-Despite Equalization payments of some form being [constitutionally enshrined][link-constitution], I will examine several options the Federal government could adopt after cancelling the program wholesale. Under each scenario, 
+The policy alternatives I will consider are:
 
 1. Increasing spend on other programs
 
@@ -36,7 +38,7 @@ Despite Equalization payments of some form being [constitutionally enshrined][li
 
 I will only consider the year 2022, since this was the only year for which I could find data across all dimensions. All dollar amounts are adjusted to 2026 CAD per CPI. The Territories are included for completeness (and since my family would get mad at me otherwise). However, they receive funds through Territorial Formula Financing, which is not being cancelled under these hyopthetical scenarios. This means they look like "have" Provinces, but in reality they rake in billions from the Feds.
 
-Now let's dive in!
+I should also note that I did not have access to granular personal income tax data, so my analysis is limited to crude estimates of the impacts of certain policy decisions. The results should be interpreted as toy models illustrating the effects of certain "categories" of policy, such as reducing taxes on higher income earners, or increasing spending on seniors. They should not be taken as authoritative conclusions regarding the the benefits and costs of Equalization.
 
 [link-policy-brief]: https://www.schoolofpublicpolicy.sk.ca/documents/research/policy-briefs/equalisation-policy-paper_final.pdf
 [link-constitution]: https://laws-lois.justice.gc.ca/eng/const/page-13.html#h-56
