@@ -32,7 +32,7 @@ The policy alternatives I will consider are:
 
     &nbsp;&nbsp;&nbsp; i) A flat tax credit to all tax payers
 
-    &nbsp;&nbsp;&nbsp; ii) Decreasing the top income tax bracket
+    &nbsp;&nbsp;&nbsp; ii) Decreasing taxes on the top income tax bracket
 
     &nbsp;&nbsp;&nbsp; iii) Decreasing corporate income tax
 
@@ -85,8 +85,57 @@ Considering this alternative, we see a very different distribution in the net be
 
 ### 3.1 A flat tax credit to all tax payers
 
-Rather than handing out money on a per capita basis, the government could instead given 
+Rather than handing out money on a per capita basis, the government could instead give tax credits to all taxpayers. This is modeled as a flat credit, regardless of income level. The results aren't too far from the per-capita model, with slight variations between provinces mostly representative of the number of children residing there.
 
-### 3.2 Decreasing the top income tax bracket
+<iframe
+    src="{{ '/assets/html/map_federal_net_change_per_capita_2026_tax_filers_flat_transfer_2022.html' | relative_url }}"
+    title="Equalization net benefit per capita map under flat tax credit replacement model"
+    loading="lazy"
+    style="width: 100%; height: 475px; border: 0;"
+></iframe>
+
+### 3.2 Decreasing taxes on the top income tax bracket
+
+Due to the lack of granular data, this alternative only considers reducing the taxes paid by those in the top income bracket, not the rates of the top tax bracket itself. This may result in some perverse situations such as lower or even negative marginal rates at the top of the income ladder. Notwithstanding these limitations, the results still illustrate the burden of Equalization if we consider it paid for by taxes on the highest earning Canadians.
+
+Here the costs shift immensely to Alberta, a Province rich in high incomes. Trailing behind are BC and Ontario. The costs drop off considerably in the other Provinces, indicating that their realtively few high flyers do not contribute much to federal coffers. All the have-nots see substantial gains vs the per-capita model, reflecting their lack of high earners.
+
+<iframe
+    src="{{ '/assets/html/map_federal_net_change_per_capita_2026_personal_top_bracket_tax_2022.html' | relative_url }}"
+    title="Equalization net benefit per capita map under top income tax bracket decrease replacement model"
+    loading="lazy"
+    style="width: 100%; height: 475px; border: 0;"
+></iframe>
 
 ### 3.3 Decreasing corporate income tax
+
+If we instead consider Equalization paid for by our nation's businesses, a different picture emerges. Here, BC, Alberta, and Ontario share roughly equal burdens. Newfoundland and Labrador, far from the coprorate centre of gravity, sees only a modest cost. Once again, Quebec sees gains vs the per-capita model, but less than under the high-income tax cut alternative. The maritimes and Manitoba see benefits roughly equal to the previous model.
+
+<iframe
+    src="{{ '/assets/html/map_federal_net_change_per_capita_2026_corporate_income_tax_2022.html' | relative_url }}"
+    title="Equalization net benefit per capita map under corporate income tax decrease replacement model"
+    loading="lazy"
+    style="width: 100%; height: 475px; border: 0;"
+></iframe>
+
+## 4. Conclusion
+
+Judging economics of Equalization is not as simple as looking at the outflow of money from the Federal government. Since the program is paid for out of general revenue, any discussion on the costs and benefits to Provinces must be accompanied by an arumgent for how that money would be spent or saved instead. The answer to the question of who pays for Equalization depends on this alternative we choose.
+
+Summarizing the costs and benefits per capita under all models, with Provinces ordered by their raw equalization payments:
+
+| Province                  | Raw Equalization | Per capita transfer | OAS Increase | Flat Tax Credit | High Income | Corporate Income |
+| ------------------------- | ---------------- | ------------------- | ------------ | --------------- | ----------- | ---------------- |
+| Prince Edward Island      | 3194             | 2604                | 2504         | 2593            | 2914        | 2941             |
+| New Brunswick             | 3098             | 2507                | 2330         | 2483            | 2883        | 2856             |
+| Nova Scotia               | 2493             | 1902                | 1758         | 1888            | 2192        | 2198             |
+| Manitoba                  | 2117             | 1526                | 1566         | 1557            | 1772        | 1761             |
+| Quebec                    | 1664             | 1073                | 970          | 1053            | 1240        | 1119             |
+| Alberta                   | 0                | \-591               | \-455        | \-566           | \-812       | \-646            |
+| British Columbia          | 0                | \-591               | \-588        | \-596           | \-671       | \-670            |
+| Newfoundland and Labrador | 0                | \-591               | \-809        | \-627           | \-320       | \-189            |
+| Northwest Territories     | 0                | \-591               | \-231        | \-528           | \-320       | \-428            |
+| Nunavut                   | 0                | \-591               | \-231        | \-413           | \-202       | \-94             |
+| Ontario                   | 0                | \-591               | \-553        | \-587           | \-689       | \-661            |
+| Saskatchewan              | 0                | \-591               | \-570        | \-566           | \-349       | \-491            |
+| Yukon                     | 0                | \-591               | \-464        | \-540           | \-290       | \-362            |
