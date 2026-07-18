@@ -21,8 +21,7 @@
 title: Leif Blake
 email: contact@leifblake.ca
 description: >- # this means to ignore newlines until "baseurl:"
-  Hi, I'm Leif. This is my blog where I explore topics that interest me, especially
-  little stories hidden in the data around us. Feel free to reach out by email!
+  Hi, I'm Leif.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://leifblake.ca" # the base hostname & protocol for your site
 github_username:  leif-blake
