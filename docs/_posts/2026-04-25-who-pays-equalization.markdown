@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "So Who Really Pays for Equalization?"
-date:   2026-04-25 17:00:00 +0200
+date:   2026-07-18 15:30:00 +0200
 ---
 
 ## Introduction
