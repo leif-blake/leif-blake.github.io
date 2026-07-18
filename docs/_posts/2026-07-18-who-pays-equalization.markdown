@@ -139,3 +139,7 @@ Summarizing the costs and benefits per capita under all models, with Provinces o
 | Ontario                   | 0                | \-591               | \-553        | \-587           | \-689       | \-661            |
 | Saskatchewan              | 0                | \-591               | \-570        | \-566           | \-349       | \-491            |
 | Yukon                     | 0                | \-591               | \-464        | \-540           | \-290       | \-362            |
+
+You can find all the data and code used in this analysis [here][link-equalization]
+
+[link-equalization]: https://github.com/leif-blake/equalization
