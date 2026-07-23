@@ -1,6 +1,6 @@
 export const DUTCH_TAX_DATA = {
   holidayAllowanceRate: 0.08,
-  expatDeductionRate: 0.3,
+  defaultExpatDeductionRate: 0.3,
   years: {
     2024: {
       brackets: [

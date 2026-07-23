@@ -125,11 +125,12 @@ function computeTaxModel(input) {
 
   const totalGross = baseAnnualGross + holidayAllowance;
 
+  const expatDeductionRate = input.expatDeductionPercent / 100;
   const thresholdByCategory = yearConfig.rulingThresholds[input.rulingCategory] ?? Infinity;
   const amountEarnedAboveThreshold = Math.max(0, totalGross - thresholdByCategory);
-  const isDeductionPercentReached = amountEarnedAboveThreshold > totalGross * DUTCH_TAX_DATA.expatDeductionRate;
+  const isDeductionPercentReached = amountEarnedAboveThreshold > totalGross * expatDeductionRate;
   const isDeductionCapReached = totalGross > yearConfig.rulingCap;
-  const rulingDeduction = Math.min(amountEarnedAboveThreshold, totalGross * DUTCH_TAX_DATA.expatDeductionRate, yearConfig.rulingCap * DUTCH_TAX_DATA.expatDeductionRate);
+  const rulingDeduction = Math.min(amountEarnedAboveThreshold, totalGross * expatDeductionRate, yearConfig.rulingCap * expatDeductionRate);
 
   const taxableIncome = clampNonNegative(totalGross - rulingDeduction);
   const bracketRows = computeBracketBreakdown(taxableIncome, yearConfig);
@@ -154,6 +155,7 @@ function computeTaxModel(input) {
     holidayAllowance,
     totalGross,
     rulingCap: yearConfig.rulingCap,
+    expatDeductionRate,
     thresholdByCategory,
     isDeductionPercentReached,
     isDeductionCapReached,
@@ -217,11 +219,11 @@ function buildCalculationLines(model) {
   if (threshold !== Infinity) {
     if (model.isDeductionCapReached) {
         lines.push(
-            `<p>Expat Deduction (${rulingCategoryLabel(model.input.rulingCategory)}) =  ${toEuro(model.rulingCap)} x ${DUTCH_TAX_DATA.expatDeductionRate} = ${toEuro(model.rulingDeduction)} (capped)</p>`,
+            `<p>Expat Deduction (${rulingCategoryLabel(model.input.rulingCategory)}) =  ${toEuro(model.rulingCap)} x ${model.expatDeductionRate} = ${toEuro(model.rulingDeduction)} (capped)</p>`,
         );
     } else if (model.isDeductionPercentReached) {
         lines.push(
-            `<p>Expat Deduction (${rulingCategoryLabel(model.input.rulingCategory)}) =  ${toEuro(model.totalGross)} x ${DUTCH_TAX_DATA.expatDeductionRate} = ${toEuro(model.rulingDeduction)}</p>`,
+            `<p>Expat Deduction (${rulingCategoryLabel(model.input.rulingCategory)}) =  ${toEuro(model.totalGross)} x ${model.expatDeductionRate} = ${toEuro(model.rulingDeduction)}</p>`,
         );
     }  else {
         lines.push(
@@ -469,6 +471,25 @@ function buildMarkup(years) {
                     <option value="age_30_plus">Other</option>
                     </select>
                 </div>
+
+                <details class="dutch-tax-page__details" id="dutch-tax-advanced-options" closed>
+                <summary>Advanced Options</summary>
+                <div class="slider-container" style="display: flex; flex-direction: column; gap: 8px; font-family: system-ui, sans-serif; max-width: 300px;">
+                  <label for="expat-deduction-rate">
+                    Expat Deduction Rate (%): <strong id="expat-deduction-rate-value">${DUTCH_TAX_DATA.defaultExpatDeductionRate * 100}</strong>
+                  </label>
+                  <input 
+                    type="range" 
+                    id="expat-deduction-rate" 
+                    min="0" 
+                    max="100"
+                    name="expatDeductionPercent" 
+                    value="${DUTCH_TAX_DATA.defaultExpatDeductionRate * 100}" 
+                  />
+                </div>
+                <div class="dutch-tax-page__details-content" id="dutch-tax-advanced-options-content"></div>
+                </details>
+
                 </form>
             </div>
 
@@ -490,6 +511,25 @@ function buildMarkup(years) {
       </div>
     </section>
   `;
+}
+
+function initSlider(id, onUpdate) {
+  const slider = document.getElementById(id);
+  const display = document.getElementById(`${id}-value`);
+
+  if (!slider || !display) return;
+
+  // 'input' fires live while dragging
+  slider.addEventListener('input', (e) => {
+    const val = e.target.value; // Value as percentage  
+    // Update live value in UI
+    display.textContent = val;
+    
+    // Send value elsewhere in your app code
+    if (typeof onUpdate === 'function') {
+      onUpdate(val);
+    }
+  });
 }
 
 export function initDutchTaxCalculator({ host }) {
@@ -516,6 +556,7 @@ export function initDutchTaxCalculator({ host }) {
       includesHoliday: formData.get("includesHoliday") === "on",
       taxYear: Number(formData.get("taxYear")),
       rulingCategory: formData.get("rulingCategory") || "none",
+      expatDeductionPercent: safeNum(formData.get("expatDeductionPercent")),
     };
 
     const model = computeTaxModel(input);
@@ -535,4 +576,8 @@ export function initDutchTaxCalculator({ host }) {
   form.addEventListener("change", render);
 
   render();
+  initSlider("expat-deduction-rate", (val) => {
+    // Handle the updated expat deduction rate here
+    console.log("Updated expat deduction rate:", val);
+  });
 }
