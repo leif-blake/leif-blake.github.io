@@ -447,7 +447,7 @@ function buildMarkup(years) {
 
                 <div class="tax-form__row">
                     <label for="gross-income">Gross income (EUR)</label>
-                    <input id="gross-income" name="grossIncome" type="number" min="0" step="0.01" value="4000" required>
+                    <input id="gross-income" name="grossIncome" type="number" min="0" step="100" value="4000" required>
                 </div>
 
                 <div class="tax-form__row tax-form__row--check">
